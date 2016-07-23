@@ -1,4 +1,4 @@
-package com.lijujohn.java8.lambda;
+package lambda;
 
 import java.util.ArrayList;
 import java.util.List;
