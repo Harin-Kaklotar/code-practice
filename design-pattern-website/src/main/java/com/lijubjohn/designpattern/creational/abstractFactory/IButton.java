@@ -1,4 +1,4 @@
-package com.lijubjohn.creational.abstractFactory;
+package com.lijubjohn.designpattern.creational.abstractFactory;
 
 /**
  * Created by liju on 8/22/16.

@@ -1,4 +1,4 @@
-package com.lijubjohn.creational.factoryMethod;
+package com.lijubjohn.designpattern.creational.factoryMethod;
 
 /**
  * Created by liju on 8/22/16.
@@ -16,9 +16,11 @@ public abstract class Game {
 interface IArmy {
     public void renderArmy();
 }
+
 interface ICastle{
     public void renderCastle();
 }
+
 interface IEnemy{
     public void renderEnemy();
 }

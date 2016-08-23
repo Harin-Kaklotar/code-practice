@@ -1,4 +1,4 @@
-package com.lijubjohn.creational.prototype;
+package com.lijubjohn.designpattern.creational.prototype;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.lijubjohn.creational.builder;
+package com.lijubjohn.designpattern.creational.builder;
 
 /**
  * Created by liju on 8/22/16.

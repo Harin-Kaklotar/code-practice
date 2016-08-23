@@ -1,4 +1,4 @@
-package com.lijubjohn.structural.adapter;
+package com.lijubjohn.designpattern.structural.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.List;
 interface InterfaceA {
     public void print(String text);
 }
+
 class InterfaceAImpl implements InterfaceA{
     @Override public void print(String text) {
         System.out.println(text);
@@ -24,9 +25,11 @@ class InterfaceBImpl implements InterfaceB{
         listTexts.stream().forEach(text -> System.out.println(text));
     }
 }
+
 //we have instance of type interfaceB but want to use interfaceA , make an adapter for interfaceA
 public class Adapter implements InterfaceB {
     private InterfaceA interfaceA;
+    //InterfaceB is adapting interfaceA ,hence InterfaceA is the adaptee here ,
     public Adapter(InterfaceA interfaceA){
         this.interfaceA = interfaceA;
     }
