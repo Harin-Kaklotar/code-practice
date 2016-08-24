@@ -10,13 +10,15 @@ import java.util.stream.Collectors;
 public class Employees implements Cloneable {
     List<String> employees;
 
-    public Employees(){
+    public Employees() {
         this.employees = new ArrayList<>();
     }
-    public Employees (List<String> employeeList){
+
+    public Employees(List<String> employeeList) {
         this.employees = employeeList;
     }
-    public void loadAllEmpFromDB(){
+
+    public void loadAllEmpFromDB() {
         //mocking loading from db
         employees.add("emp 1");
         employees.add("emp 2");
