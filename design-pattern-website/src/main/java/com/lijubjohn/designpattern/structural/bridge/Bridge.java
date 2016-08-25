@@ -18,7 +18,8 @@ class DrawingAPIB implements DrawingAPI {
         System.out.printf("Drawing black & white circle at (%f,%f) of radius %f", x, y, radius);
     }
 }
-//provides abstraction for shape because the shape itself can vary (circle,square etc) and encapsulates drawingAPI as how to draw a circle may also vary (colored , black & white etc)
+/* provides abstraction for shape because the shape itself can vary (circle,square etc) and encapsulates drawingAPI
+   as how to draw a circle may also vary (colored , black & white etc) */
 abstract class Shape {
     protected DrawingAPI drawingAPI;
 
