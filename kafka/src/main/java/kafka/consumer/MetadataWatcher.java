@@ -1,5 +1,6 @@
-package com.test.kafka.consumer;
+package kafka.consumer;
 
+import kafka.consumer.MetaDataConsumer;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.slf4j.Logger;

@@ -59,7 +59,7 @@ class SimpleRemote {
         slot.execute();// execute the command stored in this slot
     }
 }
-
+//Client class
 class Client {
     public static void main(String[] args) {
         //Light is the receiver of command request

@@ -1,4 +1,4 @@
-package com.test.kafka.consumer;
+package kafka.consumer;
 
 import java.io.IOException;
 import java.util.ArrayList;
