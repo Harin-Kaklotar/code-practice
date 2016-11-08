@@ -1,4 +1,4 @@
-package locks;
+package concurrency.locks;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
