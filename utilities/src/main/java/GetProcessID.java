@@ -4,12 +4,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by liju on 11/9/16.
+ * Getting process id from Linux/Unix
  */
 public class GetProcessID {
     public static void main(String[] args) throws IOException {
         Process process = Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", "echo $PPID" });
-
         StringBuilder sb = null;
         if (process.isAlive()) {
             InputStream is = null;
