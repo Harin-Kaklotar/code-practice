@@ -5,6 +5,7 @@ import java.util.Base64;
 
 /**
  * Created by liju on 11/10/16.
+ * HTTP GET and POST using HttpURLConnection api
  */
 public class HTTPURLConnectionClient {
 
