@@ -33,7 +33,7 @@ public class ApacheHttpClient {
     }
 
     /**
-     * HTTP GET
+     * HTTP GET example
      */
     public void get() {
         CloseableHttpResponse response = null;
@@ -58,6 +58,9 @@ public class ApacheHttpClient {
         }
     }
 
+    /**
+     *  HTTP Post example
+     */
     public void post(String jsonString) {
         CloseableHttpResponse response = null;
         try {
