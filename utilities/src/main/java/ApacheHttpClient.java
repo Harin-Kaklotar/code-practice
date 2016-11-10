@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -8,9 +10,6 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.net.URLEncoder;
 
 /**
  * HTTP GET and POST using HTTPURLConnection
