@@ -54,7 +54,7 @@ public class GZipCompressorExample {
             gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(compressed));
             byte[] buffer = new byte[1024];
             int len;
-            while ((len = .read(buffer))!=-1) {
+            while ((len = gzipInputStream.read(buffer))!=-1) {
                 outputStream.write(buffer, 0, len);
             }
             buffer = outputStream.toByteArray();
