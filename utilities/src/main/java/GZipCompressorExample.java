@@ -6,6 +6,7 @@ import java.util.zip.GZIPOutputStream;
 
 /**
  * Created by liju on 11/10/16.
+ * Gzip compressor
  */
 public class GZipCompressorExample {
 
@@ -53,7 +54,7 @@ public class GZipCompressorExample {
             gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(compressed));
             byte[] buffer = new byte[1024];
             int len;
-            while ((len = gzipInputStream.read(buffer))!=-1) {
+            while ((len = .read(buffer))!=-1) {
                 outputStream.write(buffer, 0, len);
             }
             buffer = outputStream.toByteArray();
@@ -78,12 +79,7 @@ public class GZipCompressorExample {
         sb.append("This is line 4");
         sb.append("This is line 5");
         sb.append("This is line 6");
-        sb.append("This is line 7");
-        sb.append("This is line 8");
-        sb.append("This is line 9");
-
 
         decompress(compress(sb.toString().getBytes()));
-
     }
 }
