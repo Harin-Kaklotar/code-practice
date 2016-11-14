@@ -1,4 +1,3 @@
-import org.xerial.snappy.*;
 /**
  * Created by Liju on 11/10/2016.
  */
