@@ -7,6 +7,8 @@ package bitmanipulation;
  * (represented in binary as 00111001011110000010100101000000).
  * 
  * Follow up: If this function is called many times, how would you optimize it?
+ *
+ * https://leetcode.com/problems/reverse-bits/
  */
 public class ReverseBit {
 
