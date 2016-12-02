@@ -13,6 +13,7 @@ public class HammingWeight {
 
     public static void main(String[] args) {
         System.out.println(hammingWeight(11));
+        System.out.println(hammingWgtUsingBitManip(11));
     }
 
     public static int hammingWeight(int n) {
@@ -23,6 +24,20 @@ public class HammingWeight {
                 count++;
             }
             n >>>= 1;
+        }
+        return count;
+    }
+
+    /**
+     * The key idea here is to realize that for any number n, doing a bit-wise AND of n and n - 1 flips the
+     * least-significant 1-bit in n to 0.
+     */
+    public static int hammingWgtUsingBitManip(int n) {
+        int count = 0;
+        // continue flipping least significant bit untill number becomes 0
+        while (n != 0) {
+            count++;
+            n = n & n - 1;
         }
         return count;
     }
