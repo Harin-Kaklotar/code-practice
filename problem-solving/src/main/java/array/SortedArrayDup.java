@@ -12,18 +12,26 @@ package array;
 
  Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
  https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+ eg.
+ 111123444
+ 121113444
+ 123111444
+ 123411144
+
  */
 public class SortedArrayDup {
 
-    public static void main(String[] args) {
-
-    }
-
     public int removeDuplicates(int[] nums) {
+        if (nums.length==0) return 0;
         int i = 0;
-        for (int j = 0; j < nums.length; j++) {
-            //TODO
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[i]!=nums[j]){
+                i++;
+                nums[i]=nums[j];
+            }
+
         }
-        return 0;
+        return i+1;
     }
 }
