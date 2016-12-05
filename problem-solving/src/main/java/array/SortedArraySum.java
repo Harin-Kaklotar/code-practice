@@ -1,4 +1,7 @@
 package array;
+
+import java.util.Arrays;
+
 /**
  * Given an array of integers that is already sorted in ascending order, find two numbers such that they add up to a specific target number.
 
@@ -10,21 +13,21 @@ package array;
  Output: index1=1, index2=2
  */
 public class SortedArraySum {
+    public static void main(String[] args) {
+        SortedArraySum sortedArraySum = new SortedArraySum();
+        System.out.println(Arrays.toString(sortedArraySum.twoSum(new int[]{0,0,1,4},0)));
+    }
 
-
-
-
-     class Solution {
-        public int[] twoSum(int[] numbers, int target) {
-            for (int i = 0; i < numbers.length; i++) {
-                for (int j = i+1; j < numbers.length; j++) {
-                    int sum = numbers[i]+numbers[j];
-                    if (sum==target){
-                        return new int[]{i+1,j+1};
-                    }
-                }
-            }
-            return null;
+    public int[] twoSum(int[] numbers, int target) {
+        int i = 0;
+        int j = numbers.length-1;
+        while (i<j){
+            int sum = numbers[i]+numbers[j];
+            if (target==sum) break;
+            if (target > sum) i++;
+            if (target < sum) j--;
         }
+
+        return new int[]{i+1,j+1};
     }
 }
