@@ -30,6 +30,7 @@ public class RootToLeafPaths {
     public List<String> binaryTreePaths(TreeNode root,List<String> paths){
 
         //todo
+        return null;
     }
 
 
