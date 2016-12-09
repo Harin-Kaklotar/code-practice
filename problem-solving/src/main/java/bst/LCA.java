@@ -3,7 +3,9 @@ package bst;
 /**
  * Created by Liju on 12/7/2016.
  * <p>
- * You are given pointer to the root of the binary search tree and two values  v1 and v2 . You need to return the lowest common ancestor (LCA) of v1 and v2  in the binary search tree
+ You are given pointer to the root of the binary search tree and two values  v1 and v2 . You need to return the lowest common ancestor (LCA) of v1 and v2  in the binary search tree
+
+ According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
  */
 public class LCA {
 
