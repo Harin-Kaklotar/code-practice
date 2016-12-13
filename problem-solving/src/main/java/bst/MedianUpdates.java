@@ -15,56 +15,40 @@ public class MedianUpdates {
             node.rank =1;
             return node;
         }
-        if (val==root.val){
-            //todo fix this case
-            root.left= insert(root.left,val);
 
-        }
-        if (val<root.val){
-            root.left = insert(root.left,val);
-        }
         if (val>root.val){
             root.right = insert(root.right,val);
         }
 
-        root.ht = Math.max(height(root.left),height(root.right))+1;
-        root.rank = calculateRank(root);
+        if (val<=root.val){
+            root.left = insert(root.left,val);
+        }
 
-        int balanceFactor = balanceFactor(root);
-       if (balanceFactor<-1 ||balanceFactor>1){
-           if (balanceFactor>1){
-               //left-left case
-               if (balanceFactor(root.left)>0){
-                   return rightRotate(root);
-               }//left -right case
-               else {
-                   root.left = leftRotate(root.left);
-                   return rightRotate(root);
-               }
-           }
-
-           if (balanceFactor < -1){
-               //right-right case
-               if (balanceFactor(root.right)<0){
-                    return leftRotate(root);
-               }
-               // right -left case
-               else {
-                   root.right=rightRotate(root.right);
-                   return leftRotate(root);
-               }
-           }
-       }
-       return root;
+        return balanceOut(root);
     }
 
-
+   /* public static boolean search(TreeNode root,long val){
+        if (root==null) return false;
+        if (val==root.val) return true;
+        if (val >root.val){
+            return search(root.right,val);
+        }else {
+            return search(root.left,val);
+        }
+    }*/
     public static TreeNode delete(TreeNode root ,long val,Bool found){
         if (root==null){
             return null;
         }
 
-        if ((val==root.val)&&((root.left==null)|| (root.left!=null&&val!=root.left.val))){
+        if (val< root.val){
+            root.left = delete(root.left,val,found);
+        }
+        if (val>root.val){
+            root.right = delete(root.right,val,found);
+        }
+
+        if (val==root.val){
             found.setFound(true);
             //no-child
             if (root.left==null && root.right==null){
@@ -81,15 +65,13 @@ public class MedianUpdates {
             TreeNode inOrderSuccessor  = getInOrderSuccessor(root);
             root.val = inOrderSuccessor.val;
             root.right = delete(root.right,inOrderSuccessor.val,found);
-            return root;
-        }
-        if (val<= root.val){
-            root.left = delete(root.left,val,found);
-        }
-        if (val>root.val){
-            root.right = delete(root.right,val,found);
         }
 
+
+        return balanceOut(root);
+    }
+
+    private static TreeNode balanceOut(TreeNode root) {
         root.ht = Math.max(height(root.left),height(root.right))+1;
         root.rank = calculateRank(root);
 
@@ -121,23 +103,42 @@ public class MedianUpdates {
     }
 
 
-    public static double getMedian(TreeNode root){
-        final int rankDiff = calculateRank(root.left) - calculateRank(root.right);
+    public static double getMedian(TreeNode root,int leftRank,int rightRank){
+        //final int rankDiff = calculateRank(root.left) - calculateRank(root.right);
+        final int rankDiff = leftRank - rightRank;
         if (rankDiff==0) {
             return root.val;
         }
         else if (rankDiff==1){
-            return (double) (root.val+root.left.val)/2;
-        }
-        else if (rankDiff>1){
-            return getMedian(root.left.right);
+            return (root.val+getRightMost(root.left))/2;
         }
         else if (rankDiff==-1){
-            return (double) (root.val+root.right.val)/2;
+            return (root.val+getLeftMost(root.right))/2;
+
         }
-        else {
-            return getMedian(root.right.left);
+        else if(rankDiff > 1){
+            //median is on left side
+            final int i = calculateRank(root.left.right);
+            int newRightRank = rightRank+1+i;
+            int newLeftRank = leftRank-1-i;
+            return getMedian(root.left,newLeftRank,newRightRank);
+        }else {
+            //median is on right side
+            final int i = calculateRank(root.right.left);
+            int newLeftRank = leftRank+1+i;
+            int newRightRank = rightRank-1-i;
+            return getMedian(root.right,newLeftRank,newRightRank);
         }
+    }
+
+    private static double getLeftMost(TreeNode root) {
+        if (root.left==null) return root.val;
+        return getRightMost(root.left);
+    }
+
+    private static double getRightMost(TreeNode root) {
+        if (root.right==null) return root.val;
+        return getRightMost(root.right);
     }
 
     private static StringBuilder printMedian(double median ,StringBuilder sb){
@@ -220,14 +221,14 @@ public class MedianUpdates {
                     Bool found  = new Bool();
                     root = delete(root, x[i],found);
                     if (root==null||!found.getFound()) {
-                        sb.append("Wrong! \n");
+                        sb.append("Wrong!\n");
                     }else {
-                        printMedian(getMedian(root),sb);
+                        printMedian(getMedian(root,calculateRank(root.left),calculateRank(root.right)),sb);
                     }
                     break;
                 case 'a' :
                     root = insert(root,x[i]);
-                    printMedian(getMedian(root),sb);
+                    printMedian(getMedian(root,calculateRank(root.left),calculateRank(root.right)),sb);
                     break;
                 default: // do nothing
 
