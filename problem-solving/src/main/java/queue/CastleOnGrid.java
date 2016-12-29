@@ -47,7 +47,7 @@ public class CastleOnGrid {
     private static boolean processNeighbours(int x, int y, char[][] grid, int[][] steps, boolean[][] visited, Cell goal, Queue<Cell> queue) {
 
         // move right
-        for (int newY = y + 1; isLegalMove(x, newY, grid, visited); newY++) {
+        for (int newY = y + 1; isLegalMove(x, y, x, newY, grid, steps, visited); newY++) {
             steps[x][newY] = steps[x][y] + 1;
             visited[x][newY] = true;
             if (isGoalReached(x, newY, goal)) {
@@ -57,7 +57,7 @@ public class CastleOnGrid {
             }
         }
         // move left
-        for (int newY = y - 1; isLegalMove(x, newY, grid, visited); newY--) {
+        for (int newY = y - 1; isLegalMove(x, y, x, newY, grid, steps, visited); newY--) {
             steps[x][newY] = steps[x][y] + 1;
             visited[x][newY] = true;
             if (isGoalReached(x, newY, goal)) {
@@ -67,7 +67,7 @@ public class CastleOnGrid {
             }
         }
         // move up
-        for (int newX = x - 1; isLegalMove(newX, y, grid, visited); newX--) {
+        for (int newX = x - 1; isLegalMove(x, y, newX, y, grid, steps, visited); newX--) {
             steps[newX][y] = steps[x][y] + 1;
             visited[newX][y] = true;
             if (isGoalReached(newX, y, goal)) {
@@ -77,7 +77,7 @@ public class CastleOnGrid {
             }
         }
         // move down
-        for (int newX = x + 1; isLegalMove(newX, y, grid, visited); newX++) {
+        for (int newX = x + 1; isLegalMove(x, y, newX, y, grid, steps, visited); newX++) {
             steps[newX][y] = steps[x][y] + 1;
             visited[newX][y] = true;
             if (isGoalReached(newX, y, goal)) {
@@ -93,8 +93,17 @@ public class CastleOnGrid {
         return (x == goal.x && y == goal.y);
     }
 
-    private static boolean isLegalMove(int x, int y, char[][] grid, boolean[][] visited) {
-        return (x < grid.length && y < grid.length && x >= 0 && y >= 0 && !visited[x][y] && grid[x][y] == '.');
+    private static boolean isLegalMove(int x, int y, int nextX, int nextY, char[][] grid, int[][] steps, boolean[][] visited) {
+        //valid move
+        if (nextX < grid.length && nextY < grid.length && nextX >= 0 && nextY >= 0 && grid[nextX][nextY] == '.') {
+            // if the cell is already visited , check the existing cost , new cost is less then make it legal move
+            if (visited[nextX][nextY]) {
+                return (steps[x][y] + 1 <= steps[nextX][nextY]);
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     static class Cell {
