@@ -7,6 +7,8 @@ import java.util.Scanner;
 /**
  * Created by liju on 12/29/16.
  * https://www.hackerrank.com/challenges/castle-on-the-grid
+ *
+  Hint : use bfs
  */
 public class CastleOnGrid {
     public static void main(String[] args) {
