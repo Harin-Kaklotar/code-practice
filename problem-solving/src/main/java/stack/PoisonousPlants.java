@@ -1,8 +1,10 @@
+/*
 package stack;
 
 import java.util.Scanner;
 import java.util.Stack;
 
+*/
 /**
  * Created by Liju on 12/13/2016. There are N plants in a garden. Each of these plants has been added with some amount
  * of pesticide. After each day, if any plant has more pesticide than the plant at its left, being weaker than the left
@@ -35,7 +37,8 @@ import java.util.Stack;
  * Plants = {(6,1), (5,2), (4,4)}
  * <p>
  * After the 2nd day the plants stop dying.
- */
+ *//*
+
 public class PoisonousPlants {
 
     static Stack<Integer> stack1 = new Stack<>();
@@ -93,3 +96,4 @@ public class PoisonousPlants {
     }
 
 }
+*/
