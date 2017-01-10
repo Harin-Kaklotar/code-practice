@@ -1,8 +1,13 @@
 package tree.binaryIndexTree;
 
 /**
- * Created by liju on 1/9/17. https://www.hackerearth.com/practice/notes/binary-indexed-tree-or-fenwick-tree/
+ * Created by liju on 1/9/17.
+ *
+ https://www.hackerearth.com/practice/notes/binary-indexed-tree-or-fenwick-tree/
+
  */
+
+// Also called Fenwick-Tree
 public class BinaryIndexTree {
 
     public int[] createBinaryIndexTree(int[] input) {
