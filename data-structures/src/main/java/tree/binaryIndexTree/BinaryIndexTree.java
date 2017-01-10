@@ -5,6 +5,9 @@ package tree.binaryIndexTree;
  *
  https://www.hackerearth.com/practice/notes/binary-indexed-tree-or-fenwick-tree/
 
+ Operations -
+ 1. create BIT for given input
+ 2. Update index with the given value
  */
 
 // Also called Fenwick-Tree
