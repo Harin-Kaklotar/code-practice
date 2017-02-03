@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
  * 1. Since the file descriptor is already open , changing or deleting file doesn't gets reflected to the log4j
  * 2. Even after deleting or changing to Read only , we can see that the file size keeps increasing while monitoring the file inode
  * 3. Once the java process is killed only after that the inode and file node is removed from the system
+ * 4. If multiple process refer to the same file , the filedescriptor for the file is open even if any one of them is using the fd.
  */
 public class ReadOnlyFilePOC {
 
