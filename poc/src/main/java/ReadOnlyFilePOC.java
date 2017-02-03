@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
  * Steps
  * 1. Start the program
  * 2. Monitor the inode stats (file size) for the log file  ( cmd> stat -x test.log  OR lsof | grep inodeNum)
- * 3. Change the permision of the log file to read only after some time
+ * 3. Change the permission of the log file to read only after some time
  * 4. Check the inode stats (again ) for the same file
  * 5. Delete the running log file
  * 6. Check the inode stats (again ) for the same file
