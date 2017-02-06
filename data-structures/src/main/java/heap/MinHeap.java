@@ -47,11 +47,25 @@ public class MinHeap<T> {
         bubbleUp(currIndex);
     }
 
+    // Extracts min from the heap
+    public T extractMin(){
+        return extractMinNode().key;
+    }
+
     // Extracts min wgt node from the heap , removes it from the heap
-    public Node<T> extractMin() {
+    private Node<T> extractMinNode() {
         final Node<T> min = allNodes.get(0);
-        allNodes.set(0, allNodes.get(allNodes.size() - 1));
+        final Node<T> tNode = allNodes.get(allNodes.size() - 1);
+
+        // make the last node as the minimum and sink it down
+        allNodes.set(0,tNode );
+        // update node position map
+        nodePosition.put(tNode.key,0);
+
+        // remove the last node
         allNodes.remove(allNodes.size() - 1);
+        // also remove from position map
+        nodePosition.remove(min.key);
         sinkDown(0);
         return min;
     }
@@ -89,6 +103,11 @@ public class MinHeap<T> {
         return allNodes.size();
     }
 
+    // check if the heap is empty
+    public boolean isEmpty(){
+        return allNodes.isEmpty();
+    }
+
     public void printHeap() {
         for (Node node : allNodes) {
             System.out.println(node);
@@ -105,7 +124,7 @@ public class MinHeap<T> {
         // check the min of two childs if present
         final int leftChildIndex = getLeftChildIndexOf(currIndex);
         final int rightChildIndex = getRightChildIndexOf(currIndex);
-        if (leftChildIndex > allNodes.size() - 1)
+        if ((leftChildIndex > allNodes.size() - 1) || (rightChildIndex > allNodes.size() - 1))
             return;
 
         final Node<T> current = allNodes.get(currIndex);

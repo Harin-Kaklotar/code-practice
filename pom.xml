@@ -20,6 +20,7 @@
         <module>design-pattern-website</module>
         <module>problem-solving</module>
         <module>random-stuff</module>
+        <module>poc</module>
     </modules>
 
     <dependencies>

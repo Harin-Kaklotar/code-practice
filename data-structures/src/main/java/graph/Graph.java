@@ -212,6 +212,22 @@ class Edge<T> {
         this.isDirected = isDirected;
     }
 
+    public Vertex<T> getVertex1() {
+        return vertex1;
+    }
+
+    public Vertex<T> getVertex2() {
+        return vertex2;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public boolean isDirected() {
+        return isDirected;
+    }
+
     @Override
     public String toString() {
         return "Edge{" + "vertex1=" + vertex1 + ", vertex2=" + vertex2 + ", weight=" + weight + ", isDirected=" + isDirected + '}';
