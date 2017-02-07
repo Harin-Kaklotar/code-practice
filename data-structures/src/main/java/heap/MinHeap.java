@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * It is a combination of binary heap and hash map
  */
-class MinHeap<T> {
+public class MinHeap<T> {
 
     private List<Node> allNodes = new ArrayList<>();
     private Map<T, Integer> nodePosition = new HashMap<>();

@@ -161,10 +161,9 @@ class Vertex<T> {
     }
 
     public void addAdjVertex(Vertex<T> vertex, Edge<T> edge) {
-        if (!adjacentVertices.contains(vertex)) {
-            adjacentVertices.add(vertex);
-            edges.add(edge);
-        }
+        adjacentVertices.add(vertex);
+        // a pair of vertex can have multiple edges
+        edges.add(edge);
     }
 
     @Override

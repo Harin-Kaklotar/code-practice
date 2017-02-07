@@ -47,17 +47,17 @@ public class PrimsMST {
 
         // initialize the key of all the vertices of the graph to infinity ( i.e. unreachable)
         for (Vertex<Integer> vertex : graph.getAllVertices()) {
-            minHeap.addToHeap(vertex, Integer.MAX_VALUE);
+            minHeap.add(Integer.MAX_VALUE,vertex);
         }
 
         // randomly select one of the vertex to start with
         final Vertex<Integer> startVertex = graph.getAllVertices().iterator().next();
 
         // update distance to start vertex as 0 in the heap, that it is picked first
-        minHeap.decreaseKeyWgt(startVertex, 0);
+        minHeap.decrease(startVertex, 0);
 
         // process each node until the heap is empty
-        while (!minHeap.isEmpty()) {
+        while (!minHeap.empty()) {
             // extract the vertex with min key
             final Vertex<Integer> vertex = minHeap.extractMin();
 
@@ -74,7 +74,7 @@ public class PrimsMST {
 
                 if (minHeap.containsKey(adjVertex) && minHeap.getWeight(adjVertex) > adjEdge.getWeight()) {
                     // decrease the wgt for the adj vertex
-                    minHeap.decreaseKeyWgt(adjVertex, adjEdge.getWeight());
+                    minHeap.decrease(adjVertex, adjEdge.getWeight());
                     // add it to the vertex to edge map
                     vertexToEdge.put(adjVertex, adjEdge);
                 }

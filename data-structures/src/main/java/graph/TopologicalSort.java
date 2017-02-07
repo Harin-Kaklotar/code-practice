@@ -28,48 +28,50 @@ public class TopologicalSort {
 
         graph.topologicalSort();
     }
-}
 
-class Graph {
-    private int V;
-    private List<Integer> adj[];
+    static class Graph {
+        private int V;
+        private List<Integer> adj[];
 
-    public Graph(int v) {
-        V = v;
-        adj = new LinkedList[V];
-        for (int i = 0; i < adj.length; i++) {
-            adj[i] = new LinkedList<>();
-        }
-    }
-
-    public void addEdge(int source, int dest) {
-        adj[source].add(dest);
-    }
-
-    // method for topological sorting
-    public void topologicalSort() {
-        boolean[] visited = new boolean[V];
-        Stack<Integer> exploredNode = new Stack<>();
-
-        for (int i = 0; i < V; i++) {
-            if (!visited[i]) {
-                exploreChildren(i, visited, exploredNode);
+        public Graph(int v) {
+            V = v;
+            adj = new LinkedList[V];
+            for (int i = 0; i < adj.length; i++) {
+                adj[i] = new LinkedList<>();
             }
         }
 
-        // print all elements of stack - this is sorted elements
-        while (!exploredNode.empty()) {
-            System.out.print(" " + exploredNode.pop());
+        public void addEdge(int source, int dest) {
+            adj[source].add(dest);
         }
-    }
 
-    // Explore all children of currrent nodes
-    private void exploreChildren(int i, boolean[] visited, Stack<Integer> exploredNode) {
-        visited[i] = true; // mark visited and explore all its children
-        for (Integer adjVertice : adj[i]) {
-            if (!visited[adjVertice])
-                exploreChildren(adjVertice, visited, exploredNode);
+        // method for topological sorting
+        public void topologicalSort() {
+            boolean[] visited = new boolean[V];
+            Stack<Integer> exploredNode = new Stack<>();
+
+            for (int i = 0; i < V; i++) {
+                if (!visited[i]) {
+                    exploreChildren(i, visited, exploredNode);
+                }
+            }
+
+            // print all elements of stack - this is sorted elements
+            while (!exploredNode.empty()) {
+                System.out.print(" " + exploredNode.pop());
+            }
         }
-        exploredNode.push(i);
+
+        // Explore all children of currrent nodes
+        private void exploreChildren(int i, boolean[] visited, Stack<Integer> exploredNode) {
+            visited[i] = true; // mark visited and explore all its children
+            for (Integer adjVertice : adj[i]) {
+                if (!visited[adjVertice])
+                    exploreChildren(adjVertice, visited, exploredNode);
+            }
+            exploredNode.push(i);
+        }
     }
 }
+
+

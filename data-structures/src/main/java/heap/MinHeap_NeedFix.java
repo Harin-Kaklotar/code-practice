@@ -18,7 +18,8 @@ import java.util.Map;
  * It is a combination of binary heap and hash map
  *
  */
-public class MinHeap_NeedFix<T> {
+public class MinHeap_NeedFix
+        <T> {
     class Node<T> {
         T key;
         int wgt;
