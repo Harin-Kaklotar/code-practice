@@ -1,5 +1,7 @@
 package graph;
 
+import heap.MinHeap;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,13 +57,13 @@ public class DijkstraShortestPath {
 
         while (!minHeap.empty()) {
             MinHeap<Vertex<Integer>>.Node node = minHeap.extractMinNode();
-            Vertex<Integer> currentVertex = node.key;
-            distance.put(currentVertex, node.weight);
+            Vertex<Integer> currentVertex = node.getKey();
+            distance.put(currentVertex, node.getWeight());
 
             for (Edge<Integer> edge : currentVertex.getEdges()) {
                 Vertex<Integer> otherVertex = getOtherVertex(edge, currentVertex);
                 //if the vertex is not in the heap , it means its shortest distance from source is already found
-                if (!minHeap.containsData(otherVertex))
+                if (!minHeap.containsKey(otherVertex))
                     continue;
 
                 // calc distance of current vertex from source
