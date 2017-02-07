@@ -4,74 +4,77 @@ import java.util.*;
 
 /**
  * Created by liju on 2/6/17.
- *
- * https://www.hackerrank.com/challenges/primsmstsub
  */
-public class PrimsMST {
+public class DijkstraShortestPath {
 
     public static void main(String[] args) {
-
-        Graph<Integer> graph = new Graph<>(false);
-
         Scanner sc = new Scanner(System.in);
-        final int nodes = sc.nextInt();
-        final int edges = sc.nextInt();
+        int testcases = sc.nextInt();
+        for (int i = 0; i < testcases; i++) {
+            Graph<Integer> graph = new Graph<>(false);
+            int nodes = sc.nextInt();
+            int edges = sc.nextInt();
 
-        for (int i = 0; i < edges; i++) {
-            graph.addEdge(sc.nextInt(), sc.nextInt(), sc.nextInt());
-        }
-        // ignore starting node
-        final int startNodeId = sc.nextInt();
-
-        final List<Edge<Integer>> mstEdges = primsMST(graph,startNodeId);
-        long sumOfEdgeWgt =0;
-        for (Edge<Integer> mstEdge : mstEdges) {
-            sumOfEdgeWgt += mstEdge.getWeight();
-        }
-        System.out.println(sumOfEdgeWgt);
-    }
-
-    private static List<Edge<Integer>> primsMST(Graph<Integer> graph, int startNode){
-        final MinHeap<Vertex<Integer>> heap = new MinHeap();
-        final List<Edge<Integer>> mstEdges = new ArrayList<>();
-        final Map<Vertex<Integer>, Edge<Integer>> vertexToEdge = new HashMap<>();
-        
-        //initialize the distance to all vertex to infinite
-        for (Vertex<Integer> vertex : graph.getAllVertices()) {
-            heap.add(Integer.MAX_VALUE,vertex);
-        }
-
-        //set the distance to startVertex to 0 , so that it is picked up first
-        heap.decrease(graph.getVertex(startNode), 0);
-        
-        while (!heap.empty()){
-            // extract the min distance vertex from the heap
-            final Vertex<Integer> vertex = heap.extractMin();
-
-            // if this vertex has an edge , pick that edge and include in the final mst
-            // for the first vertex it won't have edge
-            if (vertexToEdge.containsKey(vertex)){
-                mstEdges.add(vertexToEdge.get(vertex));
+            for (int j = 0; j < edges; j++) {
+                graph.addEdge(sc.nextInt(), sc.nextInt(), sc.nextInt());
             }
 
-            // get all the adjacent edges of the current vertex
-            for (Edge<Integer> edge : vertex.getEdges()) {
-                
-                Vertex<Integer> otherVertex = getOtherVertex(edge,vertex);
-                if (heap.containsData(otherVertex) && heap.getWeight(otherVertex) > edge.getWeight()){
-                    heap.decrease(otherVertex, edge.getWeight());
-                    vertexToEdge.put(otherVertex, edge);
+            int source = sc.nextInt();
+            Map<Vertex<Integer>, Integer> distanceMap = dijkstraShortestPath(graph, graph.getVertex(source));
+            distanceMap.remove(graph.getVertex(source));
+
+            distanceMap.values().stream().forEach(distance -> {
+                if (distance == Integer.MAX_VALUE) {
+                    System.out.println(-1 + " ");
+                } else {
+                    System.out.print(distance + " ");
+                }
+            });
+        }
+    }
+
+    private static Map<Vertex<Integer>, Integer> dijkstraShortestPath(Graph<Integer> graph, Vertex<Integer> source) {
+        MinHeap<Vertex<Integer>> minHeap = new MinHeap<>();
+        Map<Vertex<Integer>, Integer> distance = new TreeMap<>(Comparator.comparing(v -> v.getId()));
+        Map<Vertex<Integer>, Vertex<Integer>> parent = new HashMap<>();
+
+        // initialize the distance of all the vertices to infinity
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            minHeap.add(Integer.MAX_VALUE, vertex);
+        }
+        // update the source distance to 0
+
+        minHeap.decrease(source, 0);
+        distance.put(source, 0);
+        //parent of source vertex will be null
+        parent.put(source, null);
+
+        while (!minHeap.empty()) {
+
+            MinHeap<Vertex<Integer>>.Node node = minHeap.extractMinNode();
+            Vertex<Integer> currentVertex = node.key;
+            distance.put(currentVertex, node.weight);
+
+            for (Edge<Integer> adjEdge : currentVertex.getEdges()) {
+                Vertex<Integer> otherVertex = getOtherVertex(adjEdge, currentVertex);
+
+                if (!minHeap.containsData(otherVertex))
+                    continue;
+
+                int newDistance = distance.get(currentVertex) + adjEdge.getWeight();
+                if (newDistance < minHeap.getWeight(otherVertex)) {
+                    minHeap.decrease(otherVertex, newDistance);
+                    parent.put(otherVertex, currentVertex);
                 }
             }
 
         }
-        return mstEdges;
+        return distance;
     }
 
-    private static Vertex<Integer> getOtherVertex(Edge<Integer> edge, Vertex<Integer> vertex) {
-        return edge.getVertex1().equals(vertex) ? edge.getVertex2() : edge.getVertex1();
+    private static Vertex<Integer> getOtherVertex(Edge<Integer> adjEdge, Vertex<Integer> vertex) {
+        return adjEdge.getVertex1().equals(vertex) ? adjEdge.getVertex2() : adjEdge.getVertex1();
     }
-
 
     static class Graph<T> {
 
@@ -160,7 +163,6 @@ public class PrimsMST {
             return allVertices.values();
         }
 
-
     }
 
     static class Vertex<T> {
@@ -204,7 +206,7 @@ public class PrimsMST {
 
         public void addAdjVertex(Vertex<T> vertex, Edge<T> edge) {
             adjacentVertices.add(vertex);
-            //one pair of vertex can have multiple edges
+            // a pair of vertex can have multiple edges
             edges.add(edge);
         }
 
@@ -301,19 +303,6 @@ public class PrimsMST {
         }
     }
 
-    /**
-     * Created by liju on 2/2/17.
-     *
-     * Data structure to support following operations
-     * extracMin - O(logn)
-     * addToHeap - O(logn)
-     * containsKey - O(1)
-     * decreaseKey - O(logn)
-     * getKeyWeight - O(1)
-     *
-     * It is a combination of binary heap and hash map
-     *
-     */
     static class MinHeap<T> {
 
         private List<Node> allNodes = new ArrayList<>();
@@ -479,7 +468,4 @@ public class PrimsMST {
         }
 
     }
-
 }
-
-
