@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liju on 2/2/17.
+ * Created by liju on 2/6/17.
  *
  * Data structure to support following operations
  * extracMin - O(logn)
@@ -16,191 +16,169 @@ import java.util.Map;
  * getKeyWeight - O(1)
  *
  * It is a combination of binary heap and hash map
- *
  */
-public class MinHeap<T> {
-    class Node<T> {
+class MinHeap<T> {
+
+    private List<Node> allNodes = new ArrayList<>();
+    private Map<T, Integer> nodePosition = new HashMap<>();
+
+    public class Node {
+        int weight;
         T key;
-        int wgt;
-
-        public Node(T key, int wgt) {
-            this.key = key;
-            this.wgt = wgt;
-        }
-
-        @Override
-        public String toString() {
-            return "Node{" + "key=" + key + ", wgt=" + wgt + '}';
-        }
     }
 
-    private final List<Node<T>> allNodes = new ArrayList<>();
-    // map for key to node position
-    private final Map<T, Integer> nodePosition = new HashMap<T, Integer>();
-
-    // Adds new node (key,wgt) to the heap
-    public void addToHeap(T key, int wgt) {
-        Node<T> node = new Node<>(key, wgt);
-        allNodes.add(node);
-        int currIndex = allNodes.size() - 1;
-        nodePosition.put(key, currIndex);
-        bubbleUp(currIndex);
-    }
-
-    // Extracts min from the heap
-    public T extractMin(){
-        return extractMinNode().key;
-    }
-
-    // Extracts min wgt node from the heap , removes it from the heap
-    private Node<T> extractMinNode() {
-        final Node<T> min = allNodes.get(0);
-        final Node<T> tNode = allNodes.get(allNodes.size() - 1);
-
-        // make the last node as the minimum and sink it down
-        allNodes.set(0,tNode );
-        // update node position map
-        nodePosition.put(tNode.key,0);
-
-        // remove the last node
-        allNodes.remove(allNodes.size() - 1);
-        // also remove from position map
-        nodePosition.remove(min.key);
-        sinkDown(0);
-        return min;
-    }
-
-    // Get the node with min wgt without removing it from the heap
-    public Node<T> getMin() {
-        return allNodes.get(0);
-    }
-
-    // Decreases the the wgt of the key to new val. It assumes new wgt should be less that existing one
-    public void decreaseKeyWgt(T key, int newWgt) {
-        final Integer pos = nodePosition.get(key);
-        if (newWgt < allNodes.get(pos).wgt) {
-            allNodes.get(pos).wgt = newWgt;
-            bubbleUp(pos);
-        } else {
-            throw new IllegalArgumentException("new wgt should be lower that existing");
-        }
-
-    }
-
-    // Get weight of a key
-    public int getWeight(T key) {
-        final Integer pos = nodePosition.get(key);
-        return allNodes.get(pos).wgt;
-    }
-
-    // Check if heap contains given key
+    /**
+     * Checks where the key exists in heap or not
+     */
     public boolean containsKey(T key) {
         return nodePosition.containsKey(key);
     }
 
-    // Size of the heap
-    public int getHeapSize() {
-        return allNodes.size();
+    /**
+     * Add key and its weight to they heap
+     */
+    public void add(int weight, T key) {
+        Node node = new Node();
+        node.weight = weight;
+        node.key = key;
+        allNodes.add(node);
+        int size = allNodes.size();
+        int current = size - 1;
+        int parentIndex = (current - 1) / 2;
+        nodePosition.put(node.key, current);
+
+        while (parentIndex >= 0) {
+            Node parentNode = allNodes.get(parentIndex);
+            Node currentNode = allNodes.get(current);
+            if (parentNode.weight > currentNode.weight) {
+                swap(parentNode, currentNode);
+                updatePositionMap(parentNode.key, currentNode.key, parentIndex, current);
+                current = parentIndex;
+                parentIndex = (parentIndex - 1) / 2;
+            } else {
+                break;
+            }
+        }
     }
 
-    // check if the heap is empty
-    public boolean isEmpty(){
-        return allNodes.isEmpty();
+    /**
+     * Get the heap min without extracting the key
+     */
+    public T min() {
+        return allNodes.get(0).key;
+    }
+
+    /**
+     * Checks with heap is empty or not
+     */
+    public boolean empty() {
+        return allNodes.size() == 0;
+    }
+
+    /**
+     * Decreases the weight of given key to newWeight
+     */
+    public void decrease(T data, int newWeight) {
+        Integer position = nodePosition.get(data);
+        allNodes.get(position).weight = newWeight;
+        int parent = (position - 1) / 2;
+        while (parent >= 0) {
+            if (allNodes.get(parent).weight > allNodes.get(position).weight) {
+                swap(allNodes.get(parent), allNodes.get(position));
+                updatePositionMap(allNodes.get(parent).key, allNodes.get(position).key, parent, position);
+                position = parent;
+                parent = (parent - 1) / 2;
+            } else {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Get the weight of given key
+     */
+    public Integer getWeight(T key) {
+        Integer position = nodePosition.get(key);
+        if (position == null) {
+            return null;
+        } else {
+            return allNodes.get(position).weight;
+        }
+    }
+
+    /**
+     * Returns the min node of the heap
+     */
+    public Node extractMinNode() {
+        int size = allNodes.size() - 1;
+        Node minNode = new Node();
+        minNode.key = allNodes.get(0).key;
+        minNode.weight = allNodes.get(0).weight;
+
+        int lastNodeWeight = allNodes.get(size).weight;
+        allNodes.get(0).weight = lastNodeWeight;
+        allNodes.get(0).key = allNodes.get(size).key;
+        nodePosition.remove(minNode.key);
+        nodePosition.remove(allNodes.get(0));
+        nodePosition.put(allNodes.get(0).key, 0);
+        allNodes.remove(size);
+
+        int currentIndex = 0;
+        size--;
+        while (true) {
+            int left = 2 * currentIndex + 1;
+            int right = 2 * currentIndex + 2;
+            if (left > size) {
+                break;
+            }
+            if (right > size) {
+                right = left;
+            }
+            int smallerIndex = allNodes.get(left).weight <= allNodes.get(right).weight ? left : right;
+            if (allNodes.get(currentIndex).weight > allNodes.get(smallerIndex).weight) {
+                swap(allNodes.get(currentIndex), allNodes.get(smallerIndex));
+                updatePositionMap(allNodes.get(currentIndex).key, allNodes.get(smallerIndex).key, currentIndex, smallerIndex);
+                currentIndex = smallerIndex;
+            } else {
+                break;
+            }
+        }
+        return minNode;
+    }
+
+    /**
+     * Extract min value key from the heap
+     */
+    public T extractMin() {
+        Node node = extractMinNode();
+        return node.key;
+    }
+
+    private void printPositionMap() {
+        System.out.println(nodePosition);
+    }
+
+    private void swap(Node node1, Node node2) {
+        int weight = node1.weight;
+        T data = node1.key;
+
+        node1.key = node2.key;
+        node1.weight = node2.weight;
+
+        node2.key = data;
+        node2.weight = weight;
+    }
+
+    private void updatePositionMap(T data1, T data2, int pos1, int pos2) {
+        nodePosition.remove(data1);
+        nodePosition.remove(data2);
+        nodePosition.put(data1, pos1);
+        nodePosition.put(data2, pos2);
     }
 
     public void printHeap() {
-        for (Node node : allNodes) {
-            System.out.println(node);
+        for (Node n : allNodes) {
+            System.out.println(n.weight + " " + n.key);
         }
-    }
-
-    public void printPositionMap() {
-        for (Map.Entry<T, Integer> tIntegerEntry : nodePosition.entrySet()) {
-            System.out.println("key : " + tIntegerEntry.getKey() + " , pos : " + tIntegerEntry.getValue());
-        }
-    }
-
-    private void sinkDown(int currIndex) {
-        // check the min of two childs if present
-        final int leftChildIndex = getLeftChildIndexOf(currIndex);
-        final int rightChildIndex = getRightChildIndexOf(currIndex);
-        if ((leftChildIndex > allNodes.size() - 1) || (rightChildIndex > allNodes.size() - 1))
-            return;
-
-        final Node<T> current = allNodes.get(currIndex);
-        final Node<T> leftChild = allNodes.get(leftChildIndex);
-        final Node<T> rightChild = allNodes.get(rightChildIndex);
-
-        if (leftChild.wgt < rightChild.wgt && leftChild.wgt < current.wgt) {
-            swap(leftChildIndex, currIndex);
-            updatePositionMap(leftChild, current, leftChildIndex, currIndex);
-            sinkDown(leftChildIndex);
-        } else if (leftChild.wgt > rightChild.wgt && rightChild.wgt < current.wgt) {
-            swap(rightChildIndex, currIndex);
-            updatePositionMap(rightChild, current, rightChildIndex, currIndex);
-            sinkDown(rightChildIndex);
-        }
-    }
-
-    private void bubbleUp(int index) {
-        final Node<T> currentNode = allNodes.get(index);
-        int parentIndex = getParentIndexOf(index);
-        final Node<T> parentNode = allNodes.get(parentIndex);
-        if (currentNode.wgt < parentNode.wgt) {
-            swap(parentIndex, index);
-            updatePositionMap(currentNode, parentNode, index, parentIndex);
-            bubbleUp(parentIndex);
-        }
-    }
-
-    private void updatePositionMap(Node<T> currentNode, Node<T> otherNode, int currIndex, int otherIndex) {
-        nodePosition.put(currentNode.key, otherIndex);
-        nodePosition.put(otherNode.key, currIndex);
-    }
-
-    private void swap(int indexA, int indexB) {
-        Node tmp = allNodes.get(indexA);
-        allNodes.set(indexA, allNodes.get(indexB));
-        allNodes.set(indexB, tmp);
-    }
-
-    private int getLeftChildIndexOf(int index) {
-        return 2 * index;
-    }
-
-    private int getRightChildIndexOf(int index) {
-        return 2 * index + 1;
-    }
-
-    private int getParentIndexOf(int index) {
-        return index / 2;
-    }
-
-    public static void main(String[] args) {
-        MinHeap<String> heap = new MinHeap();
-        heap.addToHeap("IND", 10);
-        heap.addToHeap("AUS", 5);
-        heap.addToHeap("ENG", 20);
-        heap.addToHeap("USA", 13);
-        System.out.println("Size=" + heap.getHeapSize());
-        System.out.println("Min=" + heap.getMin());
-        heap.addToHeap("SRI", 3);
-        heap.addToHeap("KOR", 14);
-        System.out.println("Min=" + heap.getMin());
-        heap.addToHeap("SA", 9);
-        heap.decreaseKeyWgt("ENG", 10);
-        System.out.println("Size=" + heap.getHeapSize());
-        System.out.println("Min=" + heap.getMin());
-        heap.decreaseKeyWgt("USA", 2);
-        System.out.println("Min=" + heap.getMin());
-        heap.decreaseKeyWgt("IND", 1);
-        System.out.println("Min=" + heap.getMin());
-        System.out.println("Size=" + heap.getHeapSize());
-
-        System.out.println("extracted node= " + heap.extractMin());
-        System.out.println("Min=" + heap.getMin());
-        System.out.println("Size=" + heap.getHeapSize());
-        heap.printHeap();
-        heap.printPositionMap();
     }
 }
