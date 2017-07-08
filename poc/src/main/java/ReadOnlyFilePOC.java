@@ -25,9 +25,10 @@ public class ReadOnlyFilePOC {
     public static void main(String[] args) {
         try {
             Logger logger = Logger.getLogger("ReadOnlyFilePOC");
+            int i = 0 ;
             while (true) {
-                logger.info("logging some random stuff");
-                Thread.sleep(1000);
+                logger.info("logging some random stuff - " +i++);
+                Thread.sleep(2000);
             }
         } catch (Exception e) {
             e.printStackTrace();
