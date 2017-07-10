@@ -33,9 +33,19 @@ public class ClimbingLeaderboard {
          return binarySearch(val ,scores,0,end);
     }
 
-    private static int binarySearch(int val,int[] scores,int start, int end){
+    private static int binarySearch(int val,int[] scores,int l, int r){
 
-        return 0;
+        int m = 0;
+        if((l+r)%2 == 0) m = (l+r)/2;
+        else  m = (l+r)/2+1;
+
+        if(val < scores[m] && m < r && m > l){
+            return binarySearch(val,scores,m,r);
+        }else if(val > scores[m] && m < r && m > l){
+            return binarySearch(val,scores,l,m);
+        }else{
+            return m;
+        }
 
     }
 }
