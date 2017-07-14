@@ -25,8 +25,13 @@ public class JumpingOnClouds {
 
         if (curPos==c.length-1) return steps;
 
-        if (curPos+2 <= c.length && c[curPos+2]!=1) solve(c,curPos+2,steps++);
-        if (curPos+1 <= c.length && c[curPos+1]!=1) solve(c,curPos+1,steps++);
+        if (curPos+2 <= c.length && c[curPos+2]!=1) {
+            solve(c, curPos + 2, steps++) ;return steps;
+        };
+        if (curPos+1 <= c.length && c[curPos+1]!=1){
+            solve(c,curPos+1,steps++);
+            return steps;
+        }
         return -1;
     }
 
