@@ -17,17 +17,20 @@ public class GemStones {
 
         Set<Character> comp = new HashSet<>();
 
+        Set<Character> set2 = new HashSet<>();
         for (int i = 0; i < n; i++) {
-            char[] chars  =  sc.next().toCharArray();
+            char[] chars = sc.next().toCharArray();
 
             for (int j = 0; j < chars.length; j++) {
-                if (i==0){
-                    comp.add(Character.valueOf(chars[i]));
-                }else {
-                    Set<Character> set2 = new HashSet<>();
-                    set2.add(chars[i]);
-                    comp.retainAll(set2);
+                if (i == 0) {
+                    comp.add(Character.valueOf(chars[j]));
+                } else {
+                    set2.add(Character.valueOf(chars[j]));
                 }
+            }
+            if (i != 0) {
+                comp.retainAll(set2);
+                set2.clear();
             }
         }
 
@@ -35,5 +38,3 @@ public class GemStones {
 
     }
 }
-
-
