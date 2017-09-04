@@ -24,7 +24,6 @@ public class JimAndTheOrders {
                 map.put(finishTime, list);
             }
         }
-
         map.values().stream().forEach(list -> list.stream().forEach(i -> System.out.print(i + " ")));
     }
 }
