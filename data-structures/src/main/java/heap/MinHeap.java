@@ -25,6 +25,14 @@ public class MinHeap<T> {
     public class Node {
         int weight;
         T key;
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public T getKey() {
+            return key;
+        }
     }
 
     /**
