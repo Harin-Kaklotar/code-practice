@@ -1,4 +1,4 @@
-package com.test.kafka.producer;
+package kafka.producer;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -69,6 +69,7 @@ public class KafkaProducerUtil {
                     topicName = eventDataProp.getProperty(key + ".topic") ;
 
                 for (int i = 0; i < msgCount; i++) {
+                    System.out.println("sending message");
                     kafkaProducerUtil.send(new ProducerRecord(topicName,eventData.getBytes()));
                 }
 

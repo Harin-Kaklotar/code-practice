@@ -1,10 +1,11 @@
-package com.test.kafka.consumer;
+package kafka.consumer;
 
 import java.nio.ByteBuffer;
 import java.util.*;
 
 import kafka.api.PartitionFetchInfo;
 import kafka.api.PartitionOffsetRequestInfo;
+import kafka.cluster.BrokerEndPoint;
 import kafka.common.ErrorMapping;
 import kafka.common.TopicAndPartition;
 import kafka.javaapi.*;
@@ -132,8 +133,8 @@ public class SimpleConsumerUtil {
         }
         if (returnMetaData != null) {
             m_replicaBrokers.clear();
-            for (kafka.cluster.Broker replica : returnMetaData.replicas()) {
-                m_replicaBrokers.add(replica.host());
+            for (BrokerEndPoint brokerEndPoint : returnMetaData.replicas()) {
+                m_replicaBrokers.add(brokerEndPoint.host());
             }
         }
         return returnMetaData;
