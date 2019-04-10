@@ -23,16 +23,14 @@ public class DFSGraph {
     }
 
     public void traversalDFS(int startVertice,boolean visited[]){
-
         //mark the visited node
         visited[startVertice] = true;
         System.out.println(" "+startVertice);
-        //recurcusively call for all the adjacent vertices to the current node
+        //recursively call for all the adjacent vertices to the current node
         for (Integer adjacentVertice : adj[startVertice]) {
             if (!visited[adjacentVertice])
             traversalDFS(adjacentVertice,visited);
         }
-
     }
 
     public static void main(String[] args) {
