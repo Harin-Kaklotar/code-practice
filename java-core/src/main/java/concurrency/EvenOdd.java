@@ -9,9 +9,7 @@ public class EvenOdd {
     private int i = 0;
 
     public static void main(String[] args) {
-
         EvenOdd evenOdd = new EvenOdd();
-
         new Thread(() -> evenOdd.printEven()).start();
         new Thread(() -> evenOdd.printOdd()).start();
 
