@@ -2,6 +2,7 @@ package concurrency;
 
 /**
  * Created by liju on 8/12/20.
+ * Print even and odd numbers using threads in java , even numbers in one thread and odd in other thread
  */
 public class EvenOdd {
     private boolean printEven = true;
